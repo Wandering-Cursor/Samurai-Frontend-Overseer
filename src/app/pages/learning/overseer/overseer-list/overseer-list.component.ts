@@ -20,7 +20,7 @@ export class OverseerListComponent implements OnInit {
     { label: 'List View' }
   ];
 
-  constructor(private apiService: restApiService) {}
+  constructor(private apiService: restApiService) { }
 
   ngOnInit(): void {
     this.loadTeachers();
