@@ -1,0 +1,137 @@
+<header id="page-topbar" (window:scroll)="windowScroll()">
+    <div class="layout-width">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <!-- LOGO -->
+                <div class="navbar-brand-box horizontal-logo">
+                    <a routerLink="/" class="logo">
+                        <span class="logo-lg">
+                            <img src="assets/images/logo-ontu.png" alt="" height="22">
+                        </span>
+                    </a>
+                    <a>
+                        <span class="logo-lg">
+                            <img src="assets/images/logo-ontu.png" alt="" height="22">
+                        </span>
+                    </a>
+                </div>
+
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none" id="topnav-hamburger-icon" (click)="toggleMobileMenu($event)">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div dropdown class="dropdown ms-1 topbar-head-dropdown header-item">
+                    <button dropdownToggle type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle">
+                        @if (flagvalue == undefined) {
+                        <img id="header-lang-img" src="{{valueset}}" alt="Header Language" height="20" class="rounded">
+                        }@else {
+                        <img id="header-lang-img" src="{{flagvalue}}" alt="Header Language" height="20" class="rounded">
+                        }
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu dropdown-menu-end">
+
+                        <!-- item-->
+                        @for (item of listLang; track $index) {
+                        <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" (click)="setLanguage(item.text, item.lang, item.flag)">
+                            <img src="{{item.flag}}" alt="user-image" class="me-2 rounded" height="18">
+                            <span class="align-middle">{{item.text}}</span>
+                        </a>
+                    }
+                    </div>
+                </div>
+                <div class="ms-1 header-item d-none d-sm-flex">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle" data-toggle="fullscreen" (click)="fullscreen()">
+                        <i class="bi bi-arrows-fullscreen fs-lg"></i>
+                    </button>
+                </div>
+
+                <div dropdown container="body" class="dropdown topbar-head-dropdown ms-1 header-item">
+                    <button dropdownToggle type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle mode-layout">
+                        <i class="bi bi-sun align-middle fs-3xl"></i>
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
+                        <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('light')"><i class="bi bi-sun align-middle me-2"></i> Defualt (light mode)</a>
+                        <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('dark')"><i class="bi bi-moon align-middle me-2"></i> Dark</a>
+                        <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('auto')"><i class="bi bi-moon-stars align-middle me-2"></i> Auto (system defualt)</a>
+                    </div>
+                </div>
+
+                <div dropdown class="dropdown ms-sm-3 header-item topbar-user">
+                    <button dropdownToggle type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="d-flex align-items-center">
+                            <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Викладач</span>
+                        </span>
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a class="dropdown-item" routerLink="/pages/profile"><i class="mdi mdi-account-circle text-muted fs-lg align-middle me-1"></i> <span class="align-middle"> Профіль</span></a>
+                        <a class="dropdown-item" routerLink="/apps/chat"><i class="mdi mdi-message-text-outline text-muted fs-lg align-middle me-1"></i> <span class="align-middle"> Чат</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/pages/profile-settings"><i class="mdi mdi-cog-outline text-muted fs-lg align-middle me-1"></i> <span class="align-middle"> Налаштування</span></a>
+                        <a class="dropdown-item" href="javascript: void(0);" (click)="logout()"><i class="mdi mdi-logout text-muted fs-lg align-middle me-1"></i> <span class="align-middle" data-key="t-logout"> Вийти</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- removeNotificationModal -->
+<div bsModal #removeNotificationModal="bs-modal" id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" (click)="removeNotificationModal.hide()"></button>
+            </div>
+            <div class="modal-body p-md-5">
+                <div class="text-center">
+                    <div class="text-danger">
+                        <i class="bi bi-trash display-4"></i>
+                    </div>
+                    <div class="mt-4 fs-base">
+                        <h4 class="mb-1">Are you sure ?</h4>
+                        <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light" (click)="removeNotificationModal.hide()">Close</button>
+                    <button type="button" class="btn w-sm btn-danger" id="delete-notification" (click)="notificationDelete()">Yes, Delete It!</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- removeCartModal -->
+<div bsModal #removeCartModal="bs-modal" id="removeCartModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-cartmodal"></button>
+            </div>
+            <div class="modal-body p-md-5">
+                <div class="text-center">
+                    <div class="text-danger">
+                        <i class="bi bi-trash display-5"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h4>Are you sure ?</h4>
+                        <p class="text-muted mx-4 mb-0">Are you sure you want to remove this product ?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light" (click)="removeCartModal.hide()">Close</button>
+                    <button type="button" class="btn w-sm btn-danger" id="remove-cartproduct" (click)="confirmDelete()">Yes, Delete It!</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
