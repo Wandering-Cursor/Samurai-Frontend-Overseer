@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherStats, TeachersProject } from 'src/app/interfaces/api-interfaces';
 import { restApiService } from 'src/app/core/services/rest-api.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overseer-list',
   standalone: true,
   imports: [SharedModule, CommonModule],
   templateUrl: './overseer-list.component.html',
-  styleUrls: ['./overseer-list.component.scss'] // Corrected from 'styleUrl' to 'styleUrls'
+  styleUrls: ['./overseer-list.component.scss']
 })
 export class OverseerListComponent implements OnInit {
   teachers: any[] = [];
@@ -20,7 +20,7 @@ export class OverseerListComponent implements OnInit {
     { label: 'List View' }
   ];
 
-  constructor(private apiService: restApiService) { }
+  constructor(private apiService: restApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadTeachers();
@@ -35,6 +35,10 @@ export class OverseerListComponent implements OnInit {
         console.error('Error loading teacher stats:', error);
       }
     });
+  }
+
+  navigateToProjects(teacherId: string): void {
+    this.router.navigate(['learning/instructors-list', teacherId]);
   }
 
   selectTeacher(teacherId: string): void {

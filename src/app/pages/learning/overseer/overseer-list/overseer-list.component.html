@@ -18,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            <tr *ngFor="let teacher of teachers" (click)="selectTeacher(teacher.account_id)">
+                            <tr *ngFor="let teacher of teachers" (click)="navigateToProjects(teacher.account_details.account_id)">
                                 <td>{{ teacher.account_details.first_name }}</td>
                                 <td>{{ teacher.account_details.last_name }}</td>
                                 <td>{{ teacher.account_details.email }}</td>

@@ -10,6 +10,7 @@ import { selectListData } from 'src/app/store/Learning-instructor/instructor.sel
 import { cloneDeep } from 'lodash';
 import { restApiService } from 'src/app/core/services/rest-api.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -40,18 +41,23 @@ export class ListComponent {
   term: any;
 
 
-  @Input() teacherId?: string;
+  teacherId?: string;
   projects: any[] = [];
   currentPage: number = 1;
   pageSize: number = 10;
   totalProjects: number = 0;
 
-  constructor(private apiService: restApiService) {}
+  constructor(private apiService: restApiService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    if (this.teacherId) {
-      this.loadProjects();
-    }
+    this.route.params.subscribe(params => {
+      this.teacherId = params['teacherId'];
+      console.log('Received teacherId:', this.teacherId);
+  
+      if (this.teacherId) {
+        this.loadProjects();
+      }
+    });
   }
 
 
@@ -60,7 +66,7 @@ export class ListComponent {
       .subscribe({
         next: (data) => {
           this.projects = data;
-          this.totalProjects = data.length; // Adjust according to actual API response
+          this.totalProjects = data.length;
           this.currentPage = page;
         },
         error: (error) => {
@@ -91,14 +97,6 @@ export class ListComponent {
 
   uploadedFiles: any[] = [];
 
-  // File Upload
-  imageURL: any;
-  onUploadSuccess(event: any) {
-    setTimeout(() => {
-      this.uploadedFiles.push(event[0]);
-      this.ListForm.controls['img'].setValue(event[0].dataURL);
-    }, 0);
-  }
 
   // File Remove
   removeFile(event: any) {

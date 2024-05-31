@@ -12,7 +12,7 @@ import { OverseerListComponent } from '../overseer/overseer-list/overseer-list.c
 
 const routes: Routes = [
   {
-    path: "instructors-list",
+    path: "instructors-list/:teacherId",
     component: ListComponent
   },
   {
