@@ -1,9 +1,10 @@
 {
   "MENUITEMS": {
+    "APP_TITLE": "Overseer's Dashboard",
     "MENU": {
       "TEXT": "MENU",
-      "StudentTasks":"Student Tasks",
-      "StudentProjects":"Student Projects"
+      "StudentTasks": "Student Tasks",
+      "StudentProjects": "Student Projects"
     },
     "DASHBOARD": {
       "TEXT": "Dashboards",
@@ -234,6 +235,32 @@
             "LEVEL3": {
               "1": "Level 3.1",
               "2": "Level 3.2"
+            }
+          }
+        }
+      }
+    }
+  },
+  "PAGES": {
+    "LEARNING": {
+      "LIST_OF_INSTRUCTORS": {
+        "TITLE": "List of Teachers",
+        "TABLE": {
+          "NAME": "Teachers",
+          "COLUMNS": {
+            "FIRST_NAME": "First Name",
+            "LAST_NAME": "Last Name",
+            "EMAIL": "Email",
+            "ACCOUNT_TYPE": "Account type",
+            "PROJECTS_COUNT": "Number of Projects",
+            "TASKS_COUNT": "Number of Tasks",
+            "TASKS_PER_STATUS": {
+              // Consider separating the statuses into a separate entity
+              "open": "Open",
+              "resubmit": "To be resubmitted",
+              "in_progress": "In Progress",
+              "in_review": "In Review",
+              "done": "Done"
             }
           }
         }

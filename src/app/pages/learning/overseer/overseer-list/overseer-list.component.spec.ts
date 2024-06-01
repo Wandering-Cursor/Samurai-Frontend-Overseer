@@ -10,8 +10,9 @@ describe('OverseerListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [OverseerListComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
+
     fixture = TestBed.createComponent(OverseerListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,5 +1,6 @@
 {
   "MENUITEMS": {
+    "APP_TITLE": "Панель завідувача кафедрою",
     "MENU": {
       "TEXT": "МЕНЮ",
       "StudentTasks": "Завдання студентів"
@@ -233,6 +234,31 @@
             "LEVEL3": {
               "1": "Рівень 3.1",
               "2": "Рівень 3.2"
+            }
+          }
+        }
+      }
+    }
+  },
+  "PAGES": {
+    "LEARNING": {
+      "LIST_OF_INSTRUCTORS": {
+        "TITLE": "Список викладачів",
+        "TABLE": {
+          "NAME": "Викладачі",
+          "COLUMNS": {
+            "FIRST_NAME": "Ім'я",
+            "LAST_NAME": "Прізвище",
+            "EMAIL": "Електронна пошта",
+            "ACCOUNT_TYPE": "Тип облікового запису",
+            "PROJECTS_COUNT": "Кількість проектів",
+            "TASKS_COUNT": "Кількість завдань",
+            "TASKS_PER_STATUS": {
+              "open": "Відкриті",
+              "resubmit": "Повторно відкриті",
+              "in_progress": "В роботі",
+              "in_review": "На перевірці",
+              "done": "Виконані"
             }
           }
         }

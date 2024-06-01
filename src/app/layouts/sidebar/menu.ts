@@ -2,6 +2,11 @@ import { MenuItem } from "./menu.model";
 
 export const MENU: MenuItem[] = [
     {
+        id: 0,
+        label: 'MENUITEMS.APP_TITLE',
+        isTitle: true
+    },
+    {
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true
