@@ -160,9 +160,9 @@ export class TopbarComponent {
       document.documentElement.classList.add('mode-auto')
     } else {
       this.store.dispatch(changeMode({ mode }));
-    this.store.select(getLayoutmode).subscribe((mode) => {
-      document.documentElement.setAttribute('data-bs-theme', mode);
-    })
+      this.store.select(getLayoutmode).subscribe((mode) => {
+        document.documentElement.setAttribute('data-bs-theme', mode);
+      })
       document.documentElement.classList.remove('mode-auto')
       document.documentElement.setAttribute('data-topbar', mode);
     }
@@ -174,12 +174,6 @@ export class TopbarComponent {
   listLang = [
     { text: 'Українська', flag: 'assets/images/flags/ua.svg', lang: 'ua' },
     { text: 'English', flag: 'assets/images/flags/us.svg', lang: 'en' },
-    { text: 'Española', flag: 'assets/images/flags/spain.svg', lang: 'sp' },
-    { text: 'Deutsche', flag: 'assets/images/flags/germany.svg', lang: 'gr' },
-    { text: 'Italiana', flag: 'assets/images/flags/italy.svg', lang: 'it' },
-    { text: '中国人', flag: 'assets/images/flags/china.svg', lang: 'ch' },
-    { text: 'français', flag: 'assets/images/flags/french.svg', lang: 'fr' },
-    { text: 'Arabic', flag: 'assets/images/flags/ae.svg', lang: 'ar' },
   ];
 
   /***
