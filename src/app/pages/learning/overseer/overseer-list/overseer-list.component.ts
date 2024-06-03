@@ -3,9 +3,7 @@ import { restApiService } from 'src/app/core/services/rest-api.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
 import { TranslateService } from '@ngx-translate/core';
-
 
 @Component({
   selector: 'app-overseer-list',
@@ -20,7 +18,7 @@ export class OverseerListComponent implements OnInit {
   breadCrumbItems: Array<{ label: string, url?: string }> = [
     { label: 'Home', url: '/' },
     { label: 'Teachers', url: '/teachers' },
-    { label: 'PAGES.LEARNING.LIST_OF_INSTRUCTORS' }
+    { label: 'Список Інструкторів' }
   ];
 
   constructor(private apiService: restApiService, private router: Router, public translate: TranslateService) {
@@ -55,8 +53,13 @@ export class OverseerListComponent implements OnInit {
   }
 
   convertTasksByStatus(tasks: { [key: string]: number }): string {
-    // TODO: Localize the strings using translate module?
-    // Or recreate using HTML
-    return Object.keys(tasks).map((key) => `${key}: ${tasks[key]}`).join(', ');
+    const translations: { [key: string]: string } = {
+      open: 'Відкриті',
+      in_review: 'На перевірці',
+      in_progress: 'В роботі',
+      resubmit: 'На доперевірці',
+      done: 'Зроблено'
+    };
+    return Object.keys(tasks).map((key) => `${translations[key] ?? key}: ${tasks[key]}`).join(', ');
   }
 }

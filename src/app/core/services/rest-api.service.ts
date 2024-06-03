@@ -89,7 +89,7 @@ this.restApiService.getProjectTasks(projectId, { page: 1, page_size: 10 }, 'task
     }
 
     return this.http.get(
-      `${GlobalComponent.API_URL}/projects/tasks/${projectId}`,
+      `${GlobalComponent.API_URL}projects/tasks/${projectId}`,
       { params }
     );
   }

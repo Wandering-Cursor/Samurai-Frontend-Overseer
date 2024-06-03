@@ -27,28 +27,12 @@
                 </button>
             </div>
 
-            <div class="d-flex align-items-center">
-                <div dropdown class="dropdown ms-1 topbar-head-dropdown header-item">
-                    <button dropdownToggle type="button"
-                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle">
-                        @if (flagvalue == undefined) {
-                        <img id="header-lang-img" src="{{valueset}}" alt="Header Language" height="20" class="rounded">
-                        }@else {
-                        <img id="header-lang-img" src="{{flagvalue}}" alt="Header Language" height="20" class="rounded">
-                        }
-                    </button>
-                    <div *dropdownMenu class="dropdown-menu dropdown-menu-end">
+            <div class="d-flex justify-content-center align-items-center" style="flex: 1;">
+                <h1 style="font-size: 24px; font-weight: bold;">Завідувач Кафедри</h1>
+            </div>
 
-                        <!-- item-->
-                        @for (item of listLang; track $index) {
-                        <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
-                            (click)="setLanguage(item.text, item.lang, item.flag)">
-                            <img src="{{item.flag}}" alt="user-image" class="me-2 rounded" height="18">
-                            <span class="align-middle">{{item.text}}</span>
-                        </a>
-                        }
-                    </div>
-                </div>
+            <div class="d-flex align-items-center">
+
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                         data-toggle="fullscreen" (click)="fullscreen()">
@@ -63,11 +47,9 @@
                     </button>
                     <div *dropdownMenu class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
                         <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('light')"><i
-                                class="bi bi-sun align-middle me-2"></i> Defualt (light mode)</a>
+                                class="bi bi-sun align-middle me-2"></i> Звичайна (Світла тема)</a>
                         <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('dark')"><i
-                                class="bi bi-moon align-middle me-2"></i> Dark</a>
-                        <a href="javascript:void(0);" class="dropdown-item" (click)="changeMode('auto')"><i
-                                class="bi bi-moon-stars align-middle me-2"></i> Auto (system defualt)</a>
+                                class="bi bi-moon align-middle me-2"></i> Темна тема</a>
                     </div>
                 </div>
 
@@ -75,21 +57,16 @@
                     <button dropdownToggle type="button" class="btn shadow-none" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Викладач</span>
+                            <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Завідувач Кафедри</span>
                         </span>
                     </button>
                     <div *dropdownMenu class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <a class="dropdown-item" routerLink="/pages/profile"><i
-                                class="mdi mdi-account-circle text-muted fs-lg align-middle me-1"></i> <span
-                                class="align-middle"> Профіль</span></a>
+
                         <a class="dropdown-item" routerLink="/apps/chat"><i
                                 class="mdi mdi-message-text-outline text-muted fs-lg align-middle me-1"></i> <span
                                 class="align-middle"> Чат</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" routerLink="/pages/profile-settings"><i
-                                class="mdi mdi-cog-outline text-muted fs-lg align-middle me-1"></i> <span
-                                class="align-middle"> Налаштування</span></a>
                         <a class="dropdown-item" href="javascript: void(0);" (click)="logout()"><i
                                 class="mdi mdi-logout text-muted fs-lg align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout"> Вийти</span></a>

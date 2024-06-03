@@ -20,22 +20,16 @@
                             <div class="hstack gap-2 gap-md-3 flex-wrap">
                                 <div class="vr"></div>
                                 <div class="text-muted">Дата створення: <span class="fw-medium">{{ task.created_at |
-                                        date:'mediumDate' }}</span></div>
+                                        date:'short' }}</span></div>
                                 <div class="vr"></div>
                                 <div class="text-muted">Термін виконання: <span class="fw-medium">{{ task.due_date |
-                                        date:'mediumDate' }}</span></div>
+                                        date:'short' }}</span></div>
                                 <div class="vr"></div>
                                 <div class="btn-group" dropdown>
-                                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                                    <button type="button" class="btn btn-primary"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ selectedStatus | uppercase }}
+                                        {{ getTranslatedStatus(selectedStatus) | uppercase }}
                                     </button>
-                                    <div *dropdownMenu class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"
-                                            *ngFor="let status of statuses" (click)="changeStatus(status)">
-                                            {{ status | uppercase }}
-                                        </a>
-                                    </div>
                                 </div>
                                 <div class="badge rounded-pill bg-danger fs-12">{{ task.priority }}</div>
                             </div>
@@ -53,14 +47,14 @@
                             <!-- Avatar or other identifier -->
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6>{{ comment.sender_name }} <small class="text-muted">{{ comment.created_at | date:'medium' }}</small></h6>
+                            <h6>{{ comment.sender_name }} <small class="text-muted">{{ comment.created_at | date:'short' }}</small></h6>
                             <p class="text-muted">{{ comment.text }}</p>
                             <div *ngIf="comment.fileInfo">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ comment.fileInfo.file_name }}</h5>
-                                        <p class="card-text">Size: {{ comment.fileInfo.file_size }} bytes</p>
-                                        <button class="btn btn-primary" (click)="downloadFile(comment.fileInfo.file_id)">Download</button>
+                                        <p class="card-text">Розмір: {{ comment.fileInfo.file_size }} байтів</p>
+                                        <button class="btn btn-primary" (click)="downloadFile(comment.fileInfo.file_id)">Завантажити</button>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +96,7 @@
                             </tr>
                             <tr>
                                 <th>Статус</th>
-                                <td>{{ task.state }}</td>
+                                <td>{{ getTranslatedStatus(selectedStatus)}}</td>
                             </tr>
                             <tr>
                                 <th>Пріорітет</th>
@@ -115,10 +109,6 @@
                             <tr>
                                 <th>Термін виконання</th>
                                 <td>{{ task.due_date | date:'mediumDate' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Остання активність</th>
-                                <td>14 min ago</td>
                             </tr>
                         </tbody>
                     </table>

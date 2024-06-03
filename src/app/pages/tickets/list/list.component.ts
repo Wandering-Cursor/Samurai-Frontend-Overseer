@@ -104,7 +104,9 @@ export class ListComponent {
         switchMap((params) => {
           const projectId = params.get('id');
           if (projectId) {
-            return this.apiService.getProjectById(projectId);
+            this.fetchProject(projectId);
+            this.fetchTasks(projectId); // Fetch tasks separately
+            return EMPTY; // Since we are handling everything inside, we return EMPTY
           } else {
             console.error('Project ID is missing');
             this.router.navigate(['/']); // Redirect to a default route or error page
@@ -112,18 +114,85 @@ export class ListComponent {
           }
         })
       )
-      .subscribe({
-        next: (response) => {
-          this.project = response;
-          this.tasks = response.tasks;
-          this.alltasks = [...this.tasks];
-          this.updateSupportTickets(response.tasks_count_by_status);
-        },
-        error: (error) =>
-          console.error('Failed to load project details', error),
-      });
+      .subscribe();
   }
 
+  private updateSupportTickets(tasksCountByStatus: any): void {
+    this.supportTickets = [
+  {
+    id: 1,
+    imgBg: 'info',
+    img: 'bx ph-ticket',
+    iconColor: 'success',
+    icon: 'ri-arrow-right-up-line',
+    num: '',
+    count: tasksCountByStatus.open,
+    title: 'Відкриті задачі'
+},
+{
+    id: 2,
+    imgBg: 'info',
+    img: 'bx ph-pen',
+    iconColor: 'danger',
+    icon: 'ri-arrow-right-down-line',
+    num: '',
+    count: tasksCountByStatus.in_progress,
+    title: 'Задачі в роботі'
+},
+{
+    id: 3,
+    imgBg: 'warning',
+    img: 'bx ph-eye',
+    iconColor: 'danger',
+    icon: 'ri-arrow-right-down-line',
+    num: '',
+    count: tasksCountByStatus.in_review,
+    title: 'Задач на перевірці'
+},
+{
+    id: 4,
+    imgBg: 'warning',
+    img: 'bx bx-time',
+    iconColor: 'danger',
+    icon: 'ri-arrow-right-down-line',
+    num: '',
+    count: tasksCountByStatus.resubmit,
+    title: 'Задач на доперевірці'
+},
+{
+    id: 5,
+    imgBg: 'success',
+    img: 'bx bx-check-square',
+    iconColor: 'success',
+    icon: 'ri-arrow-right-up-line',
+    num: '',
+    count: tasksCountByStatus.done,
+    title: 'Задач зроблено'
+  }
+];
+}
+
+  private fetchProject(projectId: string): void {
+    this.apiService.getProjectById(projectId).subscribe({
+      next: (response) => {
+        this.project = response;
+        this.updateSupportTickets(response.tasks_count_by_status);
+      },
+      error: (error) => console.error('Failed to load project details', error),
+    });
+  }
+  
+private fetchTasks(projectId: string): void {
+  const paginationParams = { page: 1, page_size: 10 }; // Example pagination parameters
+  this.apiService.getProjectTasks(projectId, paginationParams)
+    .subscribe({
+      next: (response) => {
+        this.tasks = response.content; // Assuming 'content' contains the array of tasks
+        this.alltasks = [...this.tasks];
+      },
+      error: (error) => console.error('Failed to load tasks', error),
+    });
+}
   viewTaskDetails(taskId: string) {
     this.router.navigate(['/overview', taskId]);
   }
@@ -168,28 +237,7 @@ export class ListComponent {
     }
   }
 
-  private updateSupportTickets(counts: any): void {
-    this.supportTickets = this.supportTickets.map((ticket) => {
-      switch (ticket.title) {
-        case 'Open Tickets':
-          ticket.count = counts.open;
-          break;
-        case 'Tickets in Progess':
-          ticket.count = counts.in_progress;
-          break;
-        case 'Tickets in Review':
-          ticket.count = counts.in_review;
-          break;
-        case 'Tickets Done':
-          ticket.count = counts.resubmit;
-          break;
-        case 'Tickets Done':
-          ticket.count = counts.done;
-          break;
-      }
-      return ticket;
-    });
-  }
+
 
   // Edit Data
   editList(id: any) {

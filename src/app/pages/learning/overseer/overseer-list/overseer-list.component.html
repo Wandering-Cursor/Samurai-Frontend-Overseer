@@ -1,31 +1,26 @@
-<!-- Start Breadcrumbs -->
-<app-breadcrumbs title="PAGES.LEARNING.LIST_OF_INSTRUCTORS" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
-<!-- End Breadcrumbs -->
 
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h2>{{'PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.NAME'}}</h2>
+            <h2>Список Інструкторів</h2>
             <div class="card-body mt-3">
                 <div class="table-responsive table-card">
                     <table class="table table-centered table-hover table-nowrap mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col" class="sort cursor-pointer" (click)="onSort('first_name')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.FIRST_NAME
+                                    Ім'я
                                 </th>
                                 <th scope="col" class="sort cursor-pointer" (click)="onSort('last_name')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.LAST_NAME</th>
+                                    Прізвище</th>
                                 <th scope="col" class="sort cursors-pointer" (click)="onSort('email')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.EMAIL</th>
-                                <th scope="col" class="sort cursor-pointer" (click)="onSort('account_type')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.ACCOUNT_TYPE</th>
+                                    Електронна Пошта</th>
                                 <th scope="col" class="sort cursor-pointer" (click)="onSort('projects.total')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.PROJECTS_COUNT</th>
+                                    Кількість Проектів</th>
                                 <th scope="col" class="sort cursor-pointer" (click)="onSort('tasks_total')">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.TASKS_COUNT</th>
+                                    Кількість Завдань</th>
                                 <th scope="col" class="sort cursor-pointer">
-                                    PAGES.LEARNING.LIST_OF_INSTRUCTORS.TABLE.COLUMNS.TASKS_PER_STATUS</th>
+                                    Завдання По Статусах</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
@@ -34,7 +29,6 @@
                                 <td>{{ teacher.account_details.first_name }}</td>
                                 <td>{{ teacher.account_details.last_name }}</td>
                                 <td>{{ teacher.account_details.email }}</td>
-                                <td>{{ teacher.account_details.account_type }}</td>
                                 <td>{{ teacher.projects.total }}</td>
                                 <td>{{ teacher.tasks_total }}</td>
                                 <td>{{ convertTasksByStatus(teacher.tasks) }}</td>

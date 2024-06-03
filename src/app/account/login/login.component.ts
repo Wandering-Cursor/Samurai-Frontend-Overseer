@@ -63,7 +63,7 @@ export class LoginComponent {
     this.authService.login(username, password).subscribe({
       next: (authResponse) => {
         // Handle successful login
-        this.router.navigate(['/learning']); // Navigate to the home page or dashboard
+        this.router.navigate(['/learning/list-of-instructors']); // Navigate to the home page or dashboard
       },
       error: (error) => {
         // Handle login error
