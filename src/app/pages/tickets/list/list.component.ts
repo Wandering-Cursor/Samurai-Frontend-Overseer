@@ -84,8 +84,15 @@ export class ListComponent {
   editData: any;
   alltickets: any;
   tasks: any[] = [];
-  alltasks: any[] = [];
+  originalTasks: any[] = [];
   myGroup!: FormGroup;
+  tasksMeta: {
+    total: number;
+    page: number;
+    page_size: number;
+    total_pages: number;
+  } = { total: 0, page: 0, page_size: 0, total_pages: 0 };
+  itemsPerPage = 10;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,7 +101,7 @@ export class ListComponent {
     public apiService: restApiService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   public supportTickets: SupportTicket[] = supporttickets;
 
@@ -105,7 +112,6 @@ export class ListComponent {
           const projectId = params.get('id');
           if (projectId) {
             this.fetchProject(projectId);
-            this.fetchTasks(projectId); // Fetch tasks separately
             return EMPTY; // Since we are handling everything inside, we return EMPTY
           } else {
             console.error('Project ID is missing');
@@ -119,80 +125,82 @@ export class ListComponent {
 
   private updateSupportTickets(tasksCountByStatus: any): void {
     this.supportTickets = [
-  {
-    id: 1,
-    imgBg: 'info',
-    img: 'bx ph-ticket',
-    iconColor: 'success',
-    icon: 'ri-arrow-right-up-line',
-    num: '',
-    count: tasksCountByStatus.open,
-    title: 'Відкриті задачі'
-},
-{
-    id: 2,
-    imgBg: 'info',
-    img: 'bx ph-pen',
-    iconColor: 'danger',
-    icon: 'ri-arrow-right-down-line',
-    num: '',
-    count: tasksCountByStatus.in_progress,
-    title: 'Задачі в роботі'
-},
-{
-    id: 3,
-    imgBg: 'warning',
-    img: 'bx ph-eye',
-    iconColor: 'danger',
-    icon: 'ri-arrow-right-down-line',
-    num: '',
-    count: tasksCountByStatus.in_review,
-    title: 'Задач на перевірці'
-},
-{
-    id: 4,
-    imgBg: 'warning',
-    img: 'bx bx-time',
-    iconColor: 'danger',
-    icon: 'ri-arrow-right-down-line',
-    num: '',
-    count: tasksCountByStatus.resubmit,
-    title: 'Задач на доперевірці'
-},
-{
-    id: 5,
-    imgBg: 'success',
-    img: 'bx bx-check-square',
-    iconColor: 'success',
-    icon: 'ri-arrow-right-up-line',
-    num: '',
-    count: tasksCountByStatus.done,
-    title: 'Задач зроблено'
+      {
+        id: 1,
+        imgBg: 'info',
+        img: 'bx ph-ticket',
+        iconColor: 'success',
+        icon: 'ri-arrow-right-up-line',
+        num: '',
+        count: tasksCountByStatus.open,
+        title: 'Відкриті задачі'
+      },
+      {
+        id: 2,
+        imgBg: 'info',
+        img: 'bx ph-pen',
+        iconColor: 'danger',
+        icon: 'ri-arrow-right-down-line',
+        num: '',
+        count: tasksCountByStatus.in_progress,
+        title: 'Задачі в роботі'
+      },
+      {
+        id: 3,
+        imgBg: 'warning',
+        img: 'bx ph-eye',
+        iconColor: 'danger',
+        icon: 'ri-arrow-right-down-line',
+        num: '',
+        count: tasksCountByStatus.in_review,
+        title: 'Задач на перевірці'
+      },
+      {
+        id: 4,
+        imgBg: 'warning',
+        img: 'bx bx-time',
+        iconColor: 'danger',
+        icon: 'ri-arrow-right-down-line',
+        num: '',
+        count: tasksCountByStatus.resubmit,
+        title: 'Задач на повторне виконання'
+      },
+      {
+        id: 5,
+        imgBg: 'success',
+        img: 'bx bx-check-square',
+        iconColor: 'success',
+        icon: 'ri-arrow-right-up-line',
+        num: '',
+        count: tasksCountByStatus.done,
+        title: 'Задач зроблено'
+      }
+    ];
   }
-];
-}
 
   private fetchProject(projectId: string): void {
     this.apiService.getProjectById(projectId).subscribe({
       next: (response) => {
         this.project = response;
+        this.fetchTasks(1, this.itemsPerPage); // Fetch tasks separately
         this.updateSupportTickets(response.tasks_count_by_status);
       },
       error: (error) => console.error('Failed to load project details', error),
     });
   }
-  
-private fetchTasks(projectId: string): void {
-  const paginationParams = { page: 1, page_size: 10 }; // Example pagination parameters
-  this.apiService.getProjectTasks(projectId, paginationParams)
-    .subscribe({
-      next: (response) => {
-        this.tasks = response.content; // Assuming 'content' contains the array of tasks
-        this.alltasks = [...this.tasks];
-      },
-      error: (error) => console.error('Failed to load tasks', error),
-    });
-}
+
+  private fetchTasks(page: number, page_size: number): void {
+    const paginationParams = { page: page, page_size: page_size }; // Example pagination parameters
+    this.apiService.getProjectTasks(this.project.project_id, paginationParams)
+      .subscribe({
+        next: (response) => {
+          this.tasks = response.content; // Assuming 'content' contains the array of tasks
+          this.originalTasks = [...this.tasks];
+          this.tasksMeta = response.meta;
+        },
+        error: (error) => console.error('Failed to load tasks', error),
+      });
+  }
   viewTaskDetails(taskId: string) {
     this.router.navigate(['/overview', taskId]);
   }
@@ -210,14 +218,15 @@ private fetchTasks(projectId: string): void {
 
   filterdata() {
     if (this.term) {
-      this.tasks = this.alltasks.filter(
+      this.tasks = this.originalTasks.filter(
         (task) =>
+          // There are filters for name search, but whatever
           task.name.toLowerCase().includes(this.term.toLowerCase()) ||
           task.description.toLowerCase().includes(this.term.toLowerCase()) ||
           task.state.toLowerCase().includes(this.term.toLowerCase())
       );
     } else {
-      this.tasks = [...this.alltasks]; // Reset to original list when search term is cleared
+      this.tasks = [...this.originalTasks]; // Reset to original list when search term is cleared
     }
     this.updateNoResultDisplay();
   }
@@ -380,8 +389,6 @@ private fetchTasks(projectId: string): void {
 
   // pagechanged
   pageChanged(event: PageChangedEvent): void {
-    const startItem = (event.page - 1) * event.itemsPerPage;
-    this.endItem = event.page * event.itemsPerPage;
-    this.tickets = this.alltickets.slice(startItem, this.endItem);
+    this.fetchTasks(event.page, event.itemsPerPage);
   }
 }
