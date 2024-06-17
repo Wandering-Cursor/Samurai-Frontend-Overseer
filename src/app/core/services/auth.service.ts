@@ -69,7 +69,7 @@ export class AuthenticationService {
     const decodedToken: any = jwtDecode(accessToken);
     
     // Check if the account_type matches the required type
-    const requiredAccountType = 'student'; // Set the required account type
+    const requiredAccountType = 'overseer'; // Set the required account type
     if (decodedToken.account_type !== requiredAccountType) {
         const errorMessage = 'Unauthorized account type';
         this.store.dispatch(loginFailure({ error: errorMessage }));
