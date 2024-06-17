@@ -13,16 +13,9 @@ export const MENU: MenuItem[] = [
     },
     {
         id: 2,
-        label: 'Список Інструкторів',
+        label: 'Список Викладачів',
         icon: 'bx bx-list-ul',
         link: '/learning/list-of-instructors',
         parentId: 34
-    },
-    {
-        id: 4,
-        label: 'Чат',
-        icon: 'ph-chats',
-        link: '/apps/chat',
-        parentId: 8
     }
 ]

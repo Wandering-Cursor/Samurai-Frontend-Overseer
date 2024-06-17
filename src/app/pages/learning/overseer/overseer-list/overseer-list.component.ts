@@ -18,7 +18,7 @@ export class OverseerListComponent implements OnInit {
   breadCrumbItems: Array<{ label: string, url?: string }> = [
     { label: 'Home', url: '/' },
     { label: 'Teachers', url: '/teachers' },
-    { label: 'Список Інструкторів' }
+    { label: 'Список Викладачів' }
   ];
 
   constructor(private apiService: restApiService, private router: Router, public translate: TranslateService) {
